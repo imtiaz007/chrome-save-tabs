@@ -9,6 +9,7 @@ import {
 const App = () => {
   const [workspaces, setWorkspaces] = useLocalStorage('workspaces', {})
   const [editMode, changeEditMode] = useState(false)
+  const [inEditMode, setInEditMode] = useState('')
   const [editedValue, setEditedVal] = useState('')
 
   const getTabs = () => {
@@ -58,11 +59,13 @@ const App = () => {
   const toggleEditMode = (e) => {
     changeEditMode(!editMode)
     setEditedVal(e.currentTarget.value)
+    setInEditMode(e.currentTarget.value)
   }
 
   const saveEditedVal = (e) => {
     // save
     changeEditMode(!editMode)
+    setInEditMode('')
     let id = e.currentTarget.value
     workspaces[editedValue] = workspaces[id]
     if (id != editedValue) {
@@ -86,14 +89,15 @@ const App = () => {
       <div className="flex mt-3 flex-col space-y-2">
         {Object.keys(workspaces).map((keyName, i) => (
           <div className="flex items-center place-content-between" key={i}>
-            {!editMode && <p className="text-md ">{keyName}</p>}
-            {editMode && (
+            {keyName === inEditMode && editMode ? (
               <input
                 className="text-md p-1 bg-gray-500"
                 value={editedValue}
                 onChange={(e) => setEditedVal(e.target.value)}
                 autoFocus
               ></input>
+            ) : (
+              <p className="text-md ">{keyName}</p>
             )}
             <div className="flex items-center space-x-1">
               <button
@@ -119,7 +123,7 @@ const App = () => {
                   </svg>
                 </button>
               )}
-              {editMode && (
+              {keyName == inEditMode && editMode ? (
                 <button
                   className="text-green-600"
                   value={keyName}
@@ -138,6 +142,8 @@ const App = () => {
                     />
                   </svg>
                 </button>
+              ) : (
+                ''
               )}
 
               <button
