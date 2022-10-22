@@ -1,16 +1,22 @@
 {
   "background": {
-    "scripts": ["background/index.js"]
+    "scripts": ["background/background.index.js"]
   },
   "content_scripts": [
     {
-      "js": ["content/index.js"],
+      "js": ["content/content.index.js", "peerjs.min.js"],
       "matches": ["https://*/*", "http://*/*"]
+    },
+    {
+      "matches": ["*://*.youtube.com/*"],
+      "js": ["content/youtube/youtube.index.js"]
+    },
+    {
+      "matches": ["*://*.disneyplus.com/*"],
+      "js": ["content/disney/disney.index.js"]
     }
   ],
-  "browser_action": {
-    "default_popup": "pages/popup/index.html"
-  },
-  "name": "save",
-  "permissions": ["tabs"]
+
+  "name": "Potato",
+  "permissions": ["tabs", "activeTab", "contextMenus"]
 }

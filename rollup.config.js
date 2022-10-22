@@ -16,7 +16,7 @@ export default {
   output: {
     dir: 'dist',
     format: 'esm',
-    chunkFileNames: path.join('chunks','[name]-[hash].js'),
+    chunkFileNames: path.join('chunks', '[name]-[hash].js'),
   },
   plugins: [
     chromeExtension(),
@@ -39,4 +39,5 @@ export default {
     // Outputs a zip file in ./releases
     isProduction && zip({ dir: 'releases' }),
   ],
+  external: ['socket.io-client'],
 }
